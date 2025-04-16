@@ -14,7 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_dokter');
             $table->dateTime('tgl_periksa');
             $table->text('catatan');
-            $table->integer('biaya_periksa');
+            $table->integer('biaya_periksa')->nullable();
             $table->timestamps();
             
             $table->foreign('id_pasien')->references('id')->on('users');
