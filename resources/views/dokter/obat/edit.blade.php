@@ -1,71 +1,87 @@
 @extends('layout.app')
 
-@section('title', 'Kesehatan | Edit Pemeriksaan')
+@section('title', 'Kesehatan | Edit Obat')
+
+@section('nav-item')
+    <li class="nav-item">
+        <a href="/dokter/memeriksa" class="nav-link">
+            <i class="nav-icon fas fa-sharp-duotone fa-solid fa-stethoscope"></i>
+            <p>Memeriksa</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="/pasien/periksa" class="nav-link">
+            <i class="nav-icon fas fa-solid fa-pills"></i>
+            <p>Obat</p>
+        </a>
+    </li>
+@endsection
 
 @section('content')
+    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Edit Pemeriksaan</h1>
-                </div>
-            </div>
-        </div>
+                    <h1 class="m-0">Edit Obat</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/dokter/dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/dokter/obat">Obat</a></li>
+                        <li class="breadcrumb-item active">Edit Obat</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
     </div>
+    <!-- /.content-header -->
 
+    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <!-- left column -->
                 <div class="col-md-12">
+                    <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Form Edit Pemeriksaan</h3>
+                            <h3 class="card-title">Form Edit Obat</h3>
                         </div>
-                        <form method="POST" action="{{ url('/pasien/periksa/'.$periksa->id) }}">
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form method="POST" action="/dokter/obat/{{ $obat->id }}">
                             @csrf
                             @method('PUT')
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="dokter">Dokter</label>
-                                    <select class="form-control" id="dokter" name="id_dokter">
-                                        @foreach($dokters as $dokter)
-                                            <option value="{{ $dokter->id }}" {{ $dokter->id == $periksa->id_dokter ? 'selected' : '' }}>
-                                                {{ $dokter->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <label for="nama_obat">Nama Obat</label>
+                                    <input type="text" class="form-control" id="nama_obat" name="nama_obat"
+                                        value="{{ $obat->nama_obat }}" placeholder="Masukkan Nama Obat">
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="obat_ids">Pilih Obat</label>
-                                    <select class="form-control" id="obat_ids" name="obat_ids[]" multiple>
-                                        @foreach($obats as $obat)
-                                            <option value="{{ $obat->id }}" 
-                                                {{ in_array($obat->id, $periksa->detailPeriksas->pluck('id_obat')->toArray()) ? 'selected' : '' }}>
-                                                {{ $obat->nama_obat }} - Rp {{ number_format($obat->harga, 0, ',', '.') }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <label for="kemasan">Kemasan</label>
+                                    <input type="text" class="form-control" id="kemasan" name="kemasan"
+                                        value="{{ $obat->kemasan }}" placeholder="Masukkan Kemasan Obat">
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="catatan">Catatan</label>
-                                    <textarea class="form-control" id="catatan" name="catatan">{{ $periksa->catatan }}</textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="biaya_periksa">Biaya Pemeriksaan</label>
-                                    <input type="number" class="form-control" id="biaya_periksa" name="biaya_periksa" value="{{ $periksa->biaya_periksa }}">
+                                    <label for="harga">Harga</label>
+                                    <input type="number" class="form-control" id="harga" name="harga"
+                                        value="{{ $obat->harga }}" placeholder="Masukkan Harga Obat">
                                 </div>
                             </div>
+                            <!-- /.card-body -->
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary float-right">Update</button>
+                                <button type="submit" class="btn btn-primary float-right">Edit</button>
                             </div>
                         </form>
                     </div>
+                    <!-- /.card -->
                 </div>
             </div>
-        </div>
+
+        </div><!-- /.container-fluid -->
     </section>
+    <!-- /.content -->
 @endsection
