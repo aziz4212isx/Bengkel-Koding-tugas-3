@@ -98,7 +98,7 @@
             <a href="index3.html" class="brand-link">
                 <img src="{{asset('lte\dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Sugeng Poli</span>
+                <span class="brand-text font-weight-light">Poli Kesehatan</span>
             </a>
 
             <!-- Sidebar -->
@@ -143,10 +143,13 @@
                         @yield('nav-item')
 
                         <li class="nav-item">
-                            <a href="./logout" class="nav-link">
+                            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="nav-icon fas fa-sharp fa-solid fa-door-open"></i>
                                 <p>Logout</p>
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         </li>
                     </ul>
                 </nav>
@@ -157,6 +160,15 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <!-- Tambahkan pesan error di sini -->
+            @if(session('error'))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                {{ session('error') }}
+            </div>
+            @endif
+            
             @yield('content')
         </div>
         <!-- /.content-wrapper -->
