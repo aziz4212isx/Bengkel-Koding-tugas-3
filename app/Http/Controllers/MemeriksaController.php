@@ -6,16 +6,24 @@ use App\Models\DetailPeriksa;
 use App\Models\Obat;
 use App\Models\Periksa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MemeriksaController extends Controller
 {
     public function index()
     {
-        $memeriksas = Periksa::with('pasien')->get();
+        // Dapatkan ID dokter yang sedang login
+        $dokterId = Auth::user()->id;
+        
+        // Ambil data periksa yang memilih dokter ini
+        $memeriksas = Periksa::with('pasien')
+                            ->where('id_dokter', $dokterId)
+                            ->get();
 
-        return view('dokter.memeriksa.index', data: compact('memeriksas'));
+        return view('dokter.memeriksa.index', compact('memeriksas'));
     }
 
+    // Metode lain tetap sama seperti aslinya
     public function memeriksa($id)
     {
         $periksa = Periksa::find($id);
@@ -77,6 +85,7 @@ class MemeriksaController extends Controller
 
         return redirect('dokter/memeriksa')->with('success', 'Data pemeriksaan berhasil disimpan');
     }
+    
     public function update(Request $req)
     {
         // Validasi input
